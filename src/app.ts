@@ -1,22 +1,17 @@
-import "module-alias/register";
-import dotenv from "dotenv";
-import express from "express";
-import bodyParser from "body-parser";
-import cors from "cors";
-import authRoutes from "@/routes/authRoutes";
-
-dotenv.config();
+import express, { Request, Response } from "express";
 
 const app = express();
+const port = 3000;
 
-// middleware
-app.use(cors());
-app.use(bodyParser.json());
+// Middleware to parse JSON
+app.use(express.json());
 
-// routes
-app.use("/api/auth", authRoutes);
+// Define a simple route
+app.get("/", (req: Request, res: Response) => {
+  res.send("Hello, TypeScript with Express!");
+});
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
 });
