@@ -1,23 +1,25 @@
 {
-  "name": "expressjs-backend",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "notely-express-server",
+  "module": "index.ts",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node src/index.ts"
+    "start": "bun run src/index.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "devDependencies": {
-    "@types/express": "^5.0.0",
-    "@types/node": "^22.10.2",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.7.2"
+    "@types/bun": "latest",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.9",
+    "supertest": "^7.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "firebase-admin": "^13.0.2"
+    "express-jwt": "^8.5.1",
+    "ioredis": "^5.4.2",
+    "jwks-rsa": "^3.1.0",
+    "mongoose": "^8.9.5"
   }
 }
