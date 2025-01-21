@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "start": "bun run src/app.ts",
-    "dev": "nodemon src/app.ts",
+    "dev": "bun run src/server.ts --watch",
+    "build": "tsc",
     "test": "jest"
   },
   "devDependencies": {
@@ -17,6 +18,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "axios": "^1.7.9",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-jwt": "^8.5.1",
