@@ -1,9 +1,11 @@
 {
   "name": "notely-express-server",
-  "module": "index.ts",
+  "module": "app.ts",
   "type": "module",
   "scripts": {
-    "start": "bun run src/index.ts"
+    "start": "bun run src/app.ts",
+    "dev": "nodemon src/app.ts",
+    "test": "jest"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -21,5 +23,12 @@
     "ioredis": "^5.4.2",
     "jwks-rsa": "^3.1.0",
     "mongoose": "^8.9.5"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ]
   }
 }
