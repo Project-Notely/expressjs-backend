@@ -1,7 +1,7 @@
 import express from "express";
 import type { Application, Request, Response } from "express";
 import dotenv from "dotenv";
-import { connectDB } from "@/config/mongodb";
+import { connectMongoDB } from "@/config/mongodb";
 import redis from "@/config/redis";
 import { checkJwt } from "@/config/auth0";
 import authRoutes from "@/routes/authRoutes";
@@ -22,11 +22,7 @@ const app: Application = express();
 app.use(express.json());
 
 // connect to MongoDB
-connectDB();
-
-
-// connect to MongoDB
-connectDB();
+connectMongoDB();
 
 
 // routes
