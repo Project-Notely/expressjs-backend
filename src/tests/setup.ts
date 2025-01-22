@@ -1,29 +1,19 @@
-import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import { config } from '@/config/environment';
 
-let mongod: MongoMemoryServer;
-
 beforeAll(async () => {
-    // Ensure we're in test environment
+    // check we're in test environment
     if (process.env.NODE_ENV !== 'test') {
         throw new Error('Tests must be run in test environment');
     }
 
-    mongod = await MongoMemoryServer.create();
-    const uri = mongod.getUri();
-    await mongoose.connect(uri, {
-        ...config.mongodb.options
-    });
+    await mongoose.connect(config.mongodb.uri, config.mongodb.options);
     console.log(`Test database connected: ${mongoose.connection.db?.databaseName}`);
 });
 
 afterAll(async () => {
     if (mongoose.connection.readyState !== 0) {
         await mongoose.disconnect();
-    }
-    if (mongod) {
-        await mongod.stop();
     }
 });
 

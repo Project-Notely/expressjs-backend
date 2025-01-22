@@ -1,3 +1,4 @@
+import './config/environment';
 import app from "./app";
 // import { connectDB } from "./config/mongodb";
 
