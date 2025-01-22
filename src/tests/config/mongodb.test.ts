@@ -7,12 +7,12 @@ describe("MongoDB Connect", () => {
         await connectMongoDB();
     });
 
-    afterAll(async () => {
-        await mongoose.connection.close();
-    });
-
     afterEach(async () => {
         await User.deleteMany({});
+    });
+
+    afterAll(async () => {
+        await mongoose.connection.close();
     });
 
     const testUser = {
@@ -23,7 +23,7 @@ describe("MongoDB Connect", () => {
     };
 
     it("should connect to MongoDB successfully", async () => {
-        console.log("Connected to database:", mongoose.connection.db?.databaseName);
+        mongoose.connection.db?.databaseName;
         expect(mongoose.connection.readyState).toBe(1);
     });
 
@@ -48,7 +48,7 @@ describe("MongoDB Connect", () => {
         const user = await new User(testUser).save();
         const updatedName = 'Updated Test User';
 
-        await User.updateOne({ _id: user._id}, { name: updatedName });
+        await User.updateOne({ _id: user._id }, { name: updatedName });
         const updatedUser = await User.findById(user._id);
 
         expect(updatedUser?.name).toBe(updatedName);
