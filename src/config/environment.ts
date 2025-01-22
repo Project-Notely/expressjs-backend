@@ -1,54 +1,24 @@
-type Environment = 'development' | 'test' | 'production';
+import dotenv from 'dotenv';
+import type { ConnectOptions } from 'mongoose';
 
-interface EnvironmentConfig {
+// Load environment variables based on NODE_ENV
+const envFile = process.env.NODE_ENV === 'test' 
+  ? '.env.test'
+  : process.env.NODE_ENV === 'production'
+  ? '.env.prod'
+  : '.env';
+
+dotenv.config({ path: envFile });
+
+export const config = {
   mongodb: {
-    uri: string;
+    uri: process.env.MONGO_URI || '',
     options: {
-      dbName: string;
-    };
-  };
+      retryWrites: true,
+      w: 'majority',
+    } satisfies ConnectOptions
+  },
   server: {
-    port: number;
-  };
-  auth0: {
-    domain: string;
-    audience: string;
-  };
-}
-
-const getEnvironmentConfig = (): EnvironmentConfig => {
-  const env = (process.env.NODE_ENV || 'development') as Environment;
-  const isDev = env === 'development';
-  const isTest = env === 'test';
-
-  // Validate required environment variables
-  const requiredEnvVars = [
-    'MONGO_URI',
-    'AUTH0_DOMAIN',
-    'AUTH0_AUDIENCE'
-  ];
-
-  for (const envVar of requiredEnvVars) {
-    if (!process.env[envVar]) {
-      throw new Error(`Missing required environment variable: ${envVar}`);
-    }
+    port: process.env.PORT || 3001
   }
-
-  return {
-    mongodb: {
-      uri: process.env.MONGO_URI!,
-      options: {
-        dbName: isTest ? 'notely-test' : isDev ? 'notely-dev' : 'notely-prod'
-      }
-    },
-    server: {
-      port: parseInt(process.env.PORT || '3000')
-    },
-    auth0: {
-      domain: process.env.AUTH0_DOMAIN!,
-      audience: process.env.AUTH0_AUDIENCE!
-    }
-  };
 };
-
-export const config = getEnvironmentConfig();

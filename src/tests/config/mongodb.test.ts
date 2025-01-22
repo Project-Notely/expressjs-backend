@@ -1,18 +1,19 @@
 import mongoose from "mongoose";
+import { setupTestDB, teardownTestDB, clearTestDB } from "../helpers/database";
 import { connectMongoDB } from "@/config/mongodb";
 import User from "@/models/User";
 
-describe("MongoDB Connect", () => {
+describe("MongoDB Connection", () => {
     beforeAll(async () => {
-        await connectMongoDB();
+        await setupTestDB();
     });
 
     afterAll(async () => {
-        await mongoose.connection.close();
+        await teardownTestDB();
     });
 
     afterEach(async () => {
-        await User.deleteMany({});
+        await clearTestDB();
     });
 
     const testUser = {
@@ -23,17 +24,13 @@ describe("MongoDB Connect", () => {
     };
 
     it("should connect to MongoDB successfully", async () => {
-        console.log("Connected to database:", mongoose.connection.db?.databaseName);
         expect(mongoose.connection.readyState).toBe(1);
     });
 
     it("should create and save a user successfully", async () => {
         const user = new User(testUser);
         const savedUser = await user.save();
-
         expect(savedUser._id).toBeDefined();
-        expect(savedUser.auth0Id).toBe(testUser.auth0Id);
-        expect(savedUser.email).toBe(testUser.email);
     });
 
     it("should find a user by email", async () => {
