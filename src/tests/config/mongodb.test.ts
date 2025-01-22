@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import { connectDB } from "@/config/mongodb";
+import { connectMongoDB } from "@/config/mongodb";
 import User from "@/models/User";
 
 describe("MongoDB Connect", () => {
     beforeAll(async () => {
-        await connectDB("notely-dev");
+        await connectMongoDB();
     });
 
     afterAll(async () => {

@@ -3,11 +3,13 @@
   "module": "app.ts",
   "type": "module",
   "scripts": {
-    "start": "bun run src/app.ts",
-    "dev": "bun run src/server.ts --watch",
-    "build": "tsc",
-    "test": "jest",
-    "test:db": "bun run src/scripts/testDb.ts"
+    "start": "cross-env NODE_ENV=production bun run src/app.ts",
+    "dev": "cross-env NODE_ENV=development bun run src/server.ts --watch",
+    "test": "cross-env NODE_ENV=test jest",
+    "test:watch": "cross-env NODE_ENV=test jest --watch",
+    "test:coverage": "cross-env NODE_ENV=test jest --coverage",
+    "lint": "eslint . --ext .ts",
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/bun": "latest",
