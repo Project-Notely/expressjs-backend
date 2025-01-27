@@ -2,12 +2,9 @@ import type { Request, RequestHandler, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import User from "@/models/User";
+import { config } from "@/config/environment";
 
-const JWT_SECRET = process.env.JWT_SECRET;
-
-if (!JWT_SECRET) {
-    throw new Error("JWT_SECRET is not set");
-}
+const JWT_SECRET = config.jwt.secret;
 
 export const register: RequestHandler = async (req: Request, res: Response) => {
     try {

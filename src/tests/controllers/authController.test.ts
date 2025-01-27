@@ -1,10 +1,8 @@
-// import request from "supertest";
-// import app from "../app";
+import { register, login } from "@/controllers/authController";
+import User from "@/models/User";
+import type { Request, Response } from "express";
+import { config } from "@/config/environment";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-// describe("Auth Routes", () => {
-//   it("should return a login message", async () => {
-//     const res = await request(app).post("/api/auth/login");
-//     expect(res.statusCode).toBe(200);
-//     expect(res.body.message).toBe("Login route");
-//   });
-// });
+const JWT_SECRET = config.jwt.secret;
