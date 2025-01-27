@@ -1,4 +1,4 @@
-import type { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction, RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -7,11 +7,18 @@ if (!JWT_SECRET) {
     throw new Error("JWT_SECRET is not set");
 }
 
-export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization?.split(" ")[1];
+export const authenticateToken: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
+    const authHeader = req.headers.authorization;
 
+    if (!authHeader) {
+        res.status(401).json({ message: "Authorization header is required." });
+        return;
+    }
+
+    const token = authHeader.split(" ")[1];
     if (!token) {
-        return res.status(401).json({ message: "No token provided." });
+        res.status(401).json({ message: "Bearer token is required." });
+        return;
     }
 
     try {
@@ -19,6 +26,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
         (req as any).user = decoded;
         next();
     } catch (error) {
-        return res.status(403).json({ message: "Invalid token." });
+        res.status(403).json({ message: "Invalid or expired token." });
+        return;
     }
 };
