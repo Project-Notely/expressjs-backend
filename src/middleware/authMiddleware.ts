@@ -1,11 +1,8 @@
 import type { Request, Response, NextFunction, RequestHandler } from "express";
 import jwt from "jsonwebtoken";
+import { config } from "@/config/environment";
 
-const JWT_SECRET = process.env.JWT_SECRET;
-
-if (!JWT_SECRET) {
-    throw new Error("JWT_SECRET is not set");
-}
+const JWT_SECRET = config.jwt.secret;
 
 export const authenticateToken: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
