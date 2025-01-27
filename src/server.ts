@@ -1,11 +1,12 @@
-import './config/environment';
-import app from "./app";
-// import { connectDB } from "./config/mongodb";
+import "@/config/environment";
+import { config } from "@/config/environment";
+import app from "@/app";
+import { connectMongoDB } from "@/config/mongodb";
 
-const PORT = process.env.PORT || 3000;
+const PORT = config.server.port;
 
 (async () => {
-    // await connectDB();
+    await connectMongoDB();
     app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
     });

@@ -1,7 +1,7 @@
-import mongoose, { Schema, Document } from "mongoose";
+import { Schema, Document, model } from "mongoose";
 
 // user document interface
-export interface IUser extends Document {
+export interface Auth0User extends Document {
     auth0Id: string;
     email: string;
     name: string;
@@ -9,7 +9,7 @@ export interface IUser extends Document {
 }
 
 // user schema
-const UserSchema: Schema = new Schema({
+const Auth0UserSchema: Schema = new Schema({
     auth0Id: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     name: { type: String, required: true },
@@ -18,4 +18,16 @@ const UserSchema: Schema = new Schema({
     { timestamps: true }
 );
 
-export default mongoose.model<IUser>("User", UserSchema);
+export interface User extends Document {
+    email: string;
+    password: string;
+}
+
+const UserSchema: Schema = new Schema({
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true }
+},
+    { timestamps: true }
+);
+
+export default model<User>("User", UserSchema);

@@ -14,11 +14,12 @@ dotenv.config({ path: envFile });
 const requiredEnvVars = [
     'PORT',
     'MONGO_URI',
+    'JWT_SECRET',
     'AUTH0_DOMAIN',
     'AUTH0_CLIENT_ID',
     'AUTH0_CLIENT_SECRET',
     'AUTH0_AUDIENCE'
-]
+] as const;
 
 for (const envVar of requiredEnvVars) {
     if (!process.env[envVar]) {
@@ -28,16 +29,20 @@ for (const envVar of requiredEnvVars) {
 
 export {};
 
-// export config object
+// export typed config object
 export const config = {
+    nodeEnv: process.env.NODE_ENV as "development" | "production" | "test",
     mongodb: {
-        uri: process.env.MONGO_URI || '',
+        uri: process.env.MONGO_URI,
         options: {
             retryWrites: true,
             w: 'majority',
         } satisfies ConnectOptions
     },
     server: {
-        port: process.env.PORT || 3001
+        port: parseInt(process.env.PORT!, 10)
+    },
+    jwt: {
+        secret: process.env.JWT_SECRET!,
     }
-};
+}as const;

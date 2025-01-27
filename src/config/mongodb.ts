@@ -10,7 +10,7 @@ export const connectMongoDB = async (): Promise<void> => {
         console.log(`MongoDB connected to database: ${mongoose.connection.db?.databaseName}`);
         console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 
-        // Add event listeners for connection status
+        // add event listeners for connection status
         mongoose.connection.on('error', (error) => {
             console.error('MongoDB connection error:', error);
         });
